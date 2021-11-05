@@ -1,0 +1,54 @@
+spring:
+      application:
+            name: users-service
+      devtools:
+            restart:
+                  enabled: true
+      h2:
+            console:
+                  enabled: true
+                  settings:
+                        web-allow-others: true
+      datasource:
+            url: jdbc:h2:mem:testdb
+            driverClassName: org.h2.Driver
+            username: sa
+            password:
+      jpa:
+            database-platform: org.hibernate.dialect.H2Dialect
+
+      config:
+            import: optional:configserver:http://localhost:8012/
+      rabbitmq:
+            host: localhost
+            port: 5672
+            username: guest
+            password: guest
+      cloud:
+            config:
+                  name: configServer
+
+
+
+server:
+      port: ${PORT:0}
+      error:
+            include-message: always
+            include-binding-errors: always
+
+eureka:
+      client:
+            service-url:
+                  defaultZone: http://localhost:8081/eureka
+      instance:
+            instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+
+gateway:
+      ip: 172.16.249.229
+token:
+      expiration_time: 1234567890
+      secret: ABCDEFGHIJKLMNOPQRST
+
+
+config:
+      login-url: /users/login
